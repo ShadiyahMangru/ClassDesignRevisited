@@ -4,7 +4,6 @@ class HockeyPlayer{
 	//fields
 	private String lastName;
 	private String position;
-	private String shoots;
 	private String birthplace;
 	
 	//constructor
