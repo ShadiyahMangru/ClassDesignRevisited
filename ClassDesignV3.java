@@ -8,7 +8,6 @@ class HockeyPlayer{
 	private String position;
 	private String birthplace;
 	private String shoots;
-	private int[] stats;
 	
 	//constructor
 	public HockeyPlayer(String lastName, String position, String birthplace, String shoots){
@@ -102,24 +101,23 @@ class Goalie extends HockeyPlayer{
 	private double savePercentage;
 	
 	//constructors
-	public Goalie(String lastName, String position, String birthplace, String shoots, int shotsAgainst, int goalsAgainst, int saves){
+	public Goalie(String lastName, String position, String birthplace, String shoots, int goalsAgainst, int saves){
 		super(lastName, position, birthplace, shoots);
-		this.shotsAgainst = shotsAgainst;
 		this.goalsAgainst = goalsAgainst;
 		this.saves = saves;
+		setShotsAgainst();
+		this.shotsAgainst = getShotsAgainst();
 		setSavePercentage();
 		this.savePercentage = getSavePercentage();
 	}
 	
 	public Goalie(HockeyPlayer hp, int shotsAgainst, int goalsAgainst, int saves){
-		this(hp.getLastName(), hp.getPosition(), hp.getBirthplace(), hp.getShoots(), shotsAgainst, goalsAgainst, saves);	
-		setSavePercentage();
-		this.savePercentage = getSavePercentage();
+		this(hp.getLastName(), hp.getPosition(), hp.getBirthplace(), hp.getShoots(), goalsAgainst, saves);	
 	}
 	
 	//setters
-	public void setShotsAgainst(int shotsAgainst){
-		this.shotsAgainst = shotsAgainst;
+	public void setShotsAgainst(){
+		shotsAgainst = goalsAgainst + saves;
 	}
 	
 	public void setGoalsAgainst(int goalsAgainst){
@@ -181,21 +179,20 @@ class Skater extends HockeyPlayer{
 	private double shootingPercentage;
 	
 	//constructors
-	public Skater(String lastName, String position, String birthplace, String shoots, int goals, int assists, int points, int plusMinus, int shots){
+	public Skater(String lastName, String position, String birthplace, String shoots, int goals, int assists, int plusMinus, int shots){
 		super(lastName, position, birthplace, shoots);
 		this.goals = goals;
 		this.assists = assists;
-		this.points = points;
 		this.plusMinus = plusMinus;
 		this.shots = shots;
+		setPoints();
+		this.points = getPoints();
 		setShootingPercentage();
 		this.shootingPercentage = getShootingPercentage();
 	}
 	
-	public Skater(HockeyPlayer hp, String shoots, int goals, int assists, int points, int plusMinus, int shots){
-		this(hp.getLastName(), hp.getPosition(), hp.getBirthplace(), hp.getShoots(), goals, assists, points, plusMinus, shots);	
-		setShootingPercentage();
-		this.shootingPercentage = getShootingPercentage();
+	public Skater(HockeyPlayer hp, String shoots, int goals, int assists, int plusMinus, int shots){
+		this(hp.getLastName(), hp.getPosition(), hp.getBirthplace(), hp.getShoots(), goals, assists, plusMinus, shots);	
 	}
 	
 	//setters
@@ -207,8 +204,8 @@ class Skater extends HockeyPlayer{
 		this.assists = assists;	
 	}
 	
-	public void setPoints(int points){
-		this.points = points;	
+	public void setPoints(){
+		points = goals + assists;	
 	}
 	
 	public void setPlusMinus(int plusMinus){
@@ -280,37 +277,37 @@ class Roster{
 	//setter
 	public void setRoster(){
 		roster = new ArrayList<HockeyPlayer>();
-		roster.add(new Goalie("Holtby", "Goalie", "Canada", "NA", 1648, 153, 1495));
-		roster.add(new Skater("Ovechkin", "Forward, LW", "Russia", "Right", 49, 38, 87, 3, 355));
-		roster.add(new Skater("Kuznetsov", "Forward, C", "Russia", "Left", 27, 56, 83, 3, 187));
-		roster.add(new Skater("Vrana", "Forward, LW", "Czech Republic", "Left", 13, 14, 27, 2, 133));
-		roster.add(new Skater("Gersich", "Forward, LW", "USA", "Left", 0, 1, 1, -1, 4));
-		roster.add(new Skater("Walker", "Forward, LW", "Wales", "Left", 1, 0, 1, 1, 4));
-		roster.add(new Skater("Burakovsky", "Forward, LW", "Austria", "Left", 12, 13, 25, 3, 84));
-		roster.add(new Skater("Backstrom", "Forward, C", "Sweden", "Left", 21, 50, 71, 5, 165));
-		roster.add(new Skater("Graovac", "Forward, C", "Canada", "Left", 0, 0, 0, -3, 1));
-		roster.add(new Skater("Boyd", "Forward, C", "USA", "Right", 0, 1, 1, 2, 2));
-		roster.add(new Skater("O'Brien", "Forward, C", "Canada", "Left", 0, 0, 0, 0, 1));
-		roster.add(new Skater("Eller", "Forward, C", "Denmark", "Left", 18, 20, 38, -6, 161));
-		roster.add(new Skater("Stephenson", "Forward, C", "Canada", "Left", 6, 12, 18, 13, 36));
-		roster.add(new Skater("Beagle", "Forward, C", "Canada", "Right", 7, 15, 22, 3, 65));
-		roster.add(new Skater("Oshie", "Forward, RW", "USA", "Right", 18, 29, 47, 2, 127));
-		roster.add(new Skater("Wilson", "Forward, RW", "Canada", "Right", 14, 21, 35, 10, 123));
-		roster.add(new Skater("Connolly", "Forward, RW", "Canada", "Right", 15, 12, 27, -6, 67));
-		roster.add(new Skater("Peluso", "Forward, RW", "Canada", "Right", 0, 0, 0, 0, 0));
-		roster.add(new Skater("Smith-Pelly", "Forward, RW", "Canada", "Right", 7, 9, 16, -6, 103));
-		roster.add(new Skater("Chiasson", "Forward, RW", "Canada", "Right", 9, 9, 18, 1, 59));
-		roster.add(new Skater("Carlson", "Defense", "USA", "Right", 15, 53, 68, 0, 237));
-		roster.add(new Skater("Orlov", "Defense", "Russia", "Left", 10, 21, 31, 10, 125));
-		roster.add(new Skater("Niskanen", "Defense", "USA", "Right", 7, 22, 29, 24, 120));
-		roster.add(new Skater("Djoos", "Defense", "Sweden", "Left", 3, 11, 14, 13, 60));
-		roster.add(new Skater("Bowey", "Defense", "Canada", "Right", 0, 12, 12, -3, 47));
-		roster.add(new Skater("Orpik", "Defense", "USA", "Left", 0, 10, 10, -9, 54));
-		roster.add(new Skater("Chorney", "Defense", "Canada", "Left", 1, 3, 4, 8, 14));
-		roster.add(new Skater("Jerabek", "Defense", "Czech Republic", "Left", 1, 3, 4, -1, 11));
-		roster.add(new Skater("Kempny", "Defense", "Czech Republic", "Left", 2, 1, 3, 1, 32));
-		roster.add(new Skater("Ness", "Defense", "USA", "Left", 0, 1, 1, 2, 2));
-		roster.add(new Goalie("Grubauer", "Goalie", "Germany", "NA", 953, 73, 880));	
+		roster.add(new Goalie("Holtby", "Goalie", "Canada", "NA", 153, 1495));
+		roster.add(new Skater("Ovechkin", "Forward, LW", "Russia", "Right", 49, 38, 3, 355));
+		roster.add(new Skater("Kuznetsov", "Forward, C", "Russia", "Left", 27, 56, 3, 187));
+		roster.add(new Skater("Vrana", "Forward, LW", "Czech Republic", "Left", 13, 14, 2, 133));
+		roster.add(new Skater("Gersich", "Forward, LW", "USA", "Left", 0, 1, -1, 4));
+		roster.add(new Skater("Walker", "Forward, LW", "Wales", "Left", 1, 0, 1, 4));
+		roster.add(new Skater("Burakovsky", "Forward, LW", "Austria", "Left", 12, 13, 3, 84));
+		roster.add(new Skater("Backstrom", "Forward, C", "Sweden", "Left", 21, 50, 5, 165));
+		roster.add(new Skater("Graovac", "Forward, C", "Canada", "Left", 0, 0, -3, 1));
+		roster.add(new Skater("Boyd", "Forward, C", "USA", "Right", 0, 1, 2, 2));
+		roster.add(new Skater("O'Brien", "Forward, C", "Canada", "Left", 0, 0, 0, 1));
+		roster.add(new Skater("Eller", "Forward, C", "Denmark", "Left", 18, 20, -6, 161));
+		roster.add(new Skater("Stephenson", "Forward, C", "Canada", "Left", 6, 12, 13, 36));
+		roster.add(new Skater("Beagle", "Forward, C", "Canada", "Right", 7, 15, 3, 65));
+		roster.add(new Skater("Oshie", "Forward, RW", "USA", "Right", 18, 29, 2, 127));
+		roster.add(new Skater("Wilson", "Forward, RW", "Canada", "Right", 14, 21, 10, 123));
+		roster.add(new Skater("Connolly", "Forward, RW", "Canada", "Right", 15, 12, -6, 67));
+		roster.add(new Skater("Peluso", "Forward, RW", "Canada", "Right", 0, 0, 0, 0));
+		roster.add(new Skater("Smith-Pelly", "Forward, RW", "Canada", "Right", 7, 9, -6, 103));
+		roster.add(new Skater("Chiasson", "Forward, RW", "Canada", "Right", 9, 9, 1, 59));
+		roster.add(new Skater("Carlson", "Defense", "USA", "Right", 15, 53, 0, 237));
+		roster.add(new Skater("Orlov", "Defense", "Russia", "Left", 10, 21, 10, 125));
+		roster.add(new Skater("Niskanen", "Defense", "USA", "Right", 7, 22, 24, 120));
+		roster.add(new Skater("Djoos", "Defense", "Sweden", "Left", 3, 11, 13, 60));
+		roster.add(new Skater("Bowey", "Defense", "Canada", "Right", 0, 12, -3, 47));
+		roster.add(new Skater("Orpik", "Defense", "USA", "Left", 0, 10, -9, 54));
+		roster.add(new Skater("Chorney", "Defense", "Canada", "Left", 1, 3, 8, 14));
+		roster.add(new Skater("Jerabek", "Defense", "Czech Republic", "Left", 1, 3, -1, 11));
+		roster.add(new Skater("Kempny", "Defense", "Czech Republic", "Left", 2, 1, 1, 32));
+		roster.add(new Skater("Ness", "Defense", "USA", "Left", 0, 1, 2, 2));
+		roster.add(new Goalie("Grubauer", "Goalie", "Germany", "NA", 73, 880));	
 	}
 	
 	//getter
@@ -477,6 +474,12 @@ class Output{
 			System.out.print("Enter selection: ");
 			userChoice = Integer.parseInt(reader.readLine());	
 			System.out.println("********************************************************************");
+		}
+		catch(NumberFormatException nfe){
+			System.out.println("NumberFormatException in userChoice method: " + nfe + ".");	
+		}
+		catch(IOException ie){
+			System.out.println("IOException in userChoice method: " + ie + ".");	
 		}
 		catch(Exception e){
 			System.out.println("Exception in userChoice method: " + e + ".");
